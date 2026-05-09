@@ -1,8 +1,4 @@
 # 🛒 EcomerceStore — Blazor Server Assignment
-
-![img alt](home.png)
-
-
 ---
 
 ## 📌 Project Overview
@@ -14,26 +10,20 @@ EcomerceStore is a **Blazor Server** web application that demonstrates a complet
 ## 🖥️ Screenshots
 
 ### Home Page — Product Showcase
-![Home Page](screenshots/home.png)
+![img alt](home.png)
 > *Bootstrap card grid showing all 6 products with images, names, prices, and Order Now buttons*
 
 ---
 
 ### Order Form Page
-![Order Form](screenshots/orderform.png)
+![img alt](orderform.png)
 > *Customer fills in Name, Address, Contact Number, and Quantity using @bind — selected product shown read-only at top*
 
 ---
 
 ### Order Confirmed Page
-![Order Confirmed](screenshots/orderconfirmed.png)
+![img alt](orderconfirmed.png)
 > *Thank you page showing full order summary including product name, quantity, unit price, and total price*
-
----
-
-### Orders Page (Navbar Link)
-![Orders Page](screenshots/orders.png)
-> *Accessible from the sidebar — shows the most recently placed order details*
 
 ---
 
