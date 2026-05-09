@@ -27,6 +27,9 @@ EcomerceStore is a **Blazor Server** web application that demonstrates a complet
 
 ---
 
+### Orders Page
+![img alt](orders.png)
+---
 ## 🗂️ Project Structure
 
 ```
