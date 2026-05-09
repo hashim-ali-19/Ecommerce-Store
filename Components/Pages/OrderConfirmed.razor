@@ -1,0 +1,79 @@
+﻿@page "/orderconfirmed"
+@rendermode InteractiveServer
+@inject OrderService OrderService
+
+<PageTitle>Order Confirmed – EcomerceStore</PageTitle>
+
+@if (lastOrder is null || lastOrder.Product is null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-warning rounded-3 text-center">
+            Not Found Any Order. <a href="/" class="alert-link">Home jao</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 text-center">
+
+                <div class="checkmark-circle">✅</div>
+                <h3 class="fw-bold text-success mb-1">Thank you for your order!</h3>
+                <p class="text-muted mb-4">Order Successfully Placed.</p>
+
+                <div class="confirmed-card mb-4 text-start">
+                    <div class="confirmed-header">
+                        <i class="bi bi-receipt me-2"></i>Order Summary
+                    </div>
+                    <table class="table summary-table table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Customer Name</th>
+                                <td>@lastOrder.CustomerName</td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>@lastOrder.Address</td>
+                            </tr>
+                            <tr>
+                                <th>Contact</th>
+                                <td>@lastOrder.ContactNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Product</th>
+                                <td>@lastOrder.Product.Name</td>
+                            </tr>
+                            <tr>
+                                <th>Unit Price</th>
+                                <td>$@lastOrder.Product.Price.ToString("0.00")</td>
+                            </tr>
+                            <tr>
+                                <th>Quantity</th>
+                                <td>@lastOrder.Quantity</td>
+                            </tr>
+                            <tr class="total-row">
+                                <th>Total Price</th>
+                                <td>$@lastOrder.TotalPrice.ToString("0.00")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <a href="/" class="btn btn-home">
+                    <i class="bi bi-house-door me-2"></i>Back to Home
+                </a>
+
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private OrderModel? lastOrder;
+
+    protected override void OnInitialized()
+    {
+        lastOrder = OrderService.GetLastOrder();
+    }
+}

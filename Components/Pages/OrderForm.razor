@@ -1,0 +1,112 @@
+﻿@page "/orderform/{ProductId:int}"
+@rendermode InteractiveServer
+@inject ProductService ProductService
+@inject OrderService OrderService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Order Form – H-Tech Store</PageTitle>
+
+@if (selectedProduct is null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger rounded-3">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Product Not Found. <a href="/" class="alert-link">Wapas jao</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="form-card">
+
+                    <h4 class="fw-bold mb-1">
+                        <i class="bi bi-pencil-square me-2 text-primary"></i>Place Your Order
+                    </h4>
+                    <p class="text-muted mb-4" style="font-size:0.9rem;">
+                        Fill in your details to complete the purchase
+                    </p>
+
+                    <!-- Selected product read-only -->
+                    <div class="product-info-card mb-4 d-flex align-items-center gap-3">
+                        <img src="@selectedProduct.ImageUrl"
+                             alt="@selectedProduct.Name"
+                             style="width:75px;height:60px;object-fit:cover;border-radius:10px;" />
+                        <div>
+                            <div class="fw-semibold">@selectedProduct.Name</div>
+                            <span class="price-badge mt-1 d-inline-block"
+                                  style="font-size:0.85rem;">
+                                $@selectedProduct.Price.ToString("0.00")
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Form fields -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="bi bi-person me-1 text-primary"></i>Full Name
+                        </label>
+                        <input class="form-control" @bind="order.CustomerName"
+                               placeholder="Enter Your Full Nmae" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="bi bi-geo-alt me-1 text-primary"></i>Address
+                        </label>
+                        <textarea class="form-control" rows="2" @bind="order.Address"
+                                  placeholder="Delivery Address"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="bi bi-telephone me-1 text-primary"></i>Contact Number
+                        </label>
+                        <input class="form-control" @bind="order.ContactNumber"
+                               placeholder="0300-1234567" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="bi bi-hash me-1 text-primary"></i>Quantity
+                        </label>
+                        <input type="number" class="form-control"
+                               @bind="order.Quantity" min="1" />
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-place-order" @onclick="HandlePlaceOrder">
+                            <i class="bi bi-check-circle me-2"></i>Place Order
+                        </button>
+                        <a href="/" class="btn btn-outline-secondary rounded-pill px-4">
+                            Cancel
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+
+    private Product? selectedProduct;
+    private OrderModel order = new() { Quantity = 1 };
+
+    protected override void OnInitialized()
+    {
+        selectedProduct = ProductService.GetProductById(ProductId);
+        if (selectedProduct is not null)
+            order.Product = selectedProduct;
+    }
+
+    private void HandlePlaceOrder()
+    {
+        OrderService.PlaceOrder(order);
+        NavigationManager.NavigateTo("/orderconfirmed");
+    }
+}

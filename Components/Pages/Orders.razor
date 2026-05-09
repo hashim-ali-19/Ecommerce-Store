@@ -1,0 +1,47 @@
+﻿@page "/orders"
+@rendermode InteractiveServer
+@inject OrderService OrderService
+
+<PageTitle>Orders – EcomerceStore</PageTitle>
+
+<div class="container py-5">
+    <h4 class="fw-bold mb-4">
+        <i class="bi bi-bag-check me-2 text-primary"></i>Order Confirmation
+    </h4>
+
+    @{
+        var order = OrderService.GetLastOrder();
+    }
+
+    @if (order is null || order.Product is null)
+    {
+        <div class="alert alert-info rounded-3 d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle fs-5"></i>
+            <span>
+                No Orders Yet.
+                <a href="/" class="alert-link">Browse Products</a>.
+            </span>
+        </div>
+    }
+    else
+    {
+        <div class="confirmed-card" style="max-width:520px;">
+            <div class="confirmed-header">
+                <i class="bi bi-receipt me-2"></i>Latest Order Details
+            </div>
+            <table class="table summary-table table-borderless mb-0">
+                <tbody>
+                    <tr><th>Customer</th><td>@order.CustomerName</td></tr>
+                    <tr><th>Address</th><td>@order.Address</td></tr>
+                    <tr><th>Contact</th><td>@order.ContactNumber</td></tr>
+                    <tr><th>Product</th><td>@order.Product.Name</td></tr>
+                    <tr><th>Quantity</th><td>@order.Quantity</td></tr>
+                    <tr class="total-row">
+                        <th>Total Price</th>
+                        <td>$@order.TotalPrice.ToString("0.00")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
